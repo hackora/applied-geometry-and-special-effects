@@ -7,6 +7,16 @@
 // qt
 #include <QObject>
 
+//GMlib
+
+namespace GMlib {
+    template <typename T, int n>
+    class PCurve;
+
+    template <typename T, int n>
+    class PSurf;
+}
+
 
 
 class Scenario : public GMlibWrapper {
@@ -16,6 +26,19 @@ public:
 
   void    initializeScenario() override;
   void    cleanupScenario() override;
+
+public slots:
+
+  void glUpdate();
+
+private:
+
+  GMlib::PCurve<float,3>*       erbs{nullptr};
+  GMlib::PSurf<float,3>*          erbsSurf{nullptr};
+  GMlib::PSurf<float,3>*          erbsSurft{nullptr};
+  GMlib::PSurf<float,3>*          erbsSurfs{nullptr};
+  GMlib::PSurf<float,3>*          erbsSurfc{nullptr};
+
 
 };
 

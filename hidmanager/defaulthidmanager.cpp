@@ -420,6 +420,18 @@ void DefaultHidManager::heToggleObjectDisplayMode() {
   }
 }
 
+void DefaultHidManager::heToggleCollapsed() {
+
+  const Array<SceneObject*> &sel_objs = scene()->getSelectedObjects();
+
+  for( int i = 0; i < sel_objs.getSize(); i++ ) {
+
+
+    auto obj = sel_objs(i);
+    obj->toggleCollapsed();
+  }
+}
+
 void DefaultHidManager::heToggleSimulation() {
 
   emit signToggleSimulation();
@@ -627,6 +639,14 @@ void DefaultHidManager::setupDefaultHidBindings() {
                          this, SLOT(heToggleObjectDisplayMode()),
                          OGL_TRIGGER);
 
+  // Rendering
+  QString ha_id_objint_toggle_collapsed =
+      registerHidAction( "Object interaction",
+                         "Toggle: Toggle Collapsed",
+                         "Toggle Collapsed",
+                         this, SLOT(heToggleCollapsed()),
+                         OGL_TRIGGER);
+
   // Simulator
   QString ha_id_sim_toggle =
       registerHidAction( "Simulator",
@@ -659,6 +679,7 @@ void DefaultHidManager::setupDefaultHidBindings() {
   registerHidMapping( ha_id_objint_replot_low,            new KeyPressInput( Qt::Key_P, Qt::ControlModifier) );
   registerHidMapping( ha_id_sim_toggle,                   new KeyPressInput( Qt::Key_R ) );
   registerHidMapping( ha_id_render_toggle_shademode,      new KeyPressInput( Qt::Key_Z ) );
+  registerHidMapping( ha_id_objint_toggle_collapsed,      new KeyPressInput( Qt::Key_C, Qt::ShiftModifier) );
 
   registerHidMapping( ha_id_objsel_select,                new MousePressInput( Qt::RightButton ) );
   registerHidMapping( ha_id_view_lock_to,                 new MousePressInput( Qt::RightButton, Qt::ControlModifier ) );

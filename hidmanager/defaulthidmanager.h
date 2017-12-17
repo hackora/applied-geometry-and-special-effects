@@ -50,6 +50,7 @@ private slots:
   virtual void                      heSelectObject( const HidInputEvent::HidInputParams& params );
   virtual void                      heSelectObjects( const HidInputEvent::HidInputParams& params );
   virtual void                      heSelectObjectTree( GMlib::SceneObject* obj );
+  virtual void                      heToggleCollapsed();
   virtual void                      heToggleObjectDisplayMode();
   virtual void                      heToggleSimulation();
   virtual void                      heToggleSelectAllObjects();

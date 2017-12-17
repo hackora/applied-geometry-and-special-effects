@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.4)
 
 # Global name of the project
-project(QmlDemo VERSION 0.1.0 LANGUAGES CXX)
+project(Geometric VERSION 0.1.0 LANGUAGES CXX)
 
 # Specify compiler features
 set(CMAKE_CXX_STANDARD 14)
@@ -14,12 +14,12 @@ if(MSVC)
   message("Compiler: ${CMAKE_CXX_COMPILER_ID}")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   message("Compiler: ${CMAKE_CXX_COMPILER_ID}")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic -Wall -Werror")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic -Wall ")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
   message("Compiler: ${CMAKE_CXX_COMPILER_ID}")
 
   # Default compile flags (read: turn on all checks)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything -Wno-c++98-compat -Wno-documentation -pedantic -Werror")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything -Wno-c++98-compat -Wno-documentation -pedantic ")
 
   # Extra compile flags to turn of stuff we don't want to handle at the moment
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-exit-time-destructors")
@@ -110,6 +110,12 @@ set( HDRS
 
   testtorus.h
   scenario.h
+  lissajous.h
+  bspline.h
+  erbsplinecurve.h
+  curveblending.h
+  erbsplinesurf.h
+  simplesubsurf.h
   )
 
 set( SRCS
@@ -131,6 +137,11 @@ set( SRCS
   application/main.cpp
 
   scenario.cpp
+  lissajous.c
+  bspline.c
+  erbsplinecurve.c
+  curveblending.c
+  erbsplinesurf.c
   )
 
 #########

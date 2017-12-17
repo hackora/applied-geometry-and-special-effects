@@ -116,6 +116,9 @@ GuiApplication::afterOnSceneGraphInitialized() {
   connect( &_hidmanager,          SIGNAL(signOpenCloseHidHelp()),
            _window.rootObject(),  SIGNAL(toggleHidBindView()) );
 
+  connect( &_window, &Window::beforeRendering,        &_scenario, &Scenario::glUpdate,
+           Qt::DirectConnection );
+
   // Update RCPair name model
   _scenario.updateRCPairNameModel();
 
