@@ -43,7 +43,7 @@ using namespace GMlib;
     T                         getDerB(T t ) const;    //derivative of the B function
 
     // Protected data for the curve
-    DMatrix< PSimpleSubSurf <T>*>       _c; // local subSurfaces
+    DMatrix< PSimpleSubSurf <T>*>       _s; // local subSurfaces
     int                                                                 _d; // polynomial degree
     int                                                                 _k; //order
     DVector<T>                                              _tU; // knot vector U

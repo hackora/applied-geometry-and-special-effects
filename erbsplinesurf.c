@@ -15,7 +15,7 @@
     if(_closedV){
         n2++;
     }
-    _c.setDim(n1,n2);
+    _s.setDim(n1,n2);
 
     T startU= s->getParStartU();
     T endU = s->getParEndU();
@@ -27,11 +27,11 @@
     generateLocalSurfacesVector(s, n1, n2);
 
     //static transformation
-    _c[3][3]->translate(Vector<float,3>(0.0,0.0,5.0));
-    _c[0][1]->translate(Vector<float,3>(0.0,0.0,-5.0));
+    _s[3][3]->translate(Vector<float,3>(0.0,0.0,5.0));
+    _s[0][1]->translate(Vector<float,3>(0.0,0.0,-5.0));
 
-    _c[3][3]->rotate(90,Vector<float,3>(1.0,0.0,0.0));
-    _c[0][1]->rotate(90,Vector<float,3>(1.0,0.0,0.0));
+    _s[3][3]->rotate(90,Vector<float,3>(1.0,0.0,0.0));
+    _s[0][1]->rotate(90,Vector<float,3>(1.0,0.0,0.0));
 
   }
 
@@ -40,7 +40,7 @@
   inline
   ERBSplineSurf<T>::ERBSplineSurf( const ERBSplineSurf<T>& copy ) : PSurf<T,3>( copy ) {
 
-      _c = copy._c;
+      _s = copy._s;
       _d = copy._d;
       _k = copy._k;
       _tU = copy._tU;
@@ -130,11 +130,11 @@
       for(int indexU=0;indexU<number1;indexU++){
 
           for(int indexV=0;indexV<number2;indexV++){
-              _c[indexU][indexV] = new PSimpleSubSurf<T> (s,_tU(indexU),_tU(indexU+2),_tU(indexU+1),_tV(indexV),_tV(indexV+2),_tV(indexV+1));
-              this->insert(_c[indexU][indexV]);
-              _c[indexU][indexV]->toggleDefaultVisualizer();
-              _c[indexU][indexV]->replot(5,5,1,1);
-              _c[indexU][indexV]->setCollapsed(true);
+              _s[indexU][indexV] = new PSimpleSubSurf<T> (s,_tU(indexU),_tU(indexU+2),_tU(indexU+1),_tV(indexV),_tV(indexV+2),_tV(indexV+1));
+              this->insert(_s[indexU][indexV]);
+              _s[indexU][indexV]->toggleDefaultVisualizer();
+              _s[indexU][indexV]->replot(5,5,1,1);
+              _s[indexU][indexV]->setCollapsed(true);
           }
       }
 
@@ -142,7 +142,7 @@
       if(_closedU ){
           for(int indexV=0;indexV<n2;indexV++){
 
-              _c[n1-1][indexV] = _c[0][indexV];
+              _s[n1-1][indexV] = _s[0][indexV];
 
           }
       }
@@ -150,7 +150,7 @@
       if(_closedV ){
           for(int indexU=0;indexU<n1;indexU++){
 
-              _c[indexU][n2-1] = _c[indexU][0];
+              _s[indexU][n2-1] = _s[indexU][0];
           }
       }
   }
@@ -158,7 +158,7 @@
   template <typename T>
   T ERBSplineSurf<T>::getEndPU() const {
 
-    return _tU[_c.getDim1()];
+    return _tU[_s.getDim1()];
   }
 
   template <typename T>
@@ -170,7 +170,7 @@
   template <typename T>
   T ERBSplineSurf<T>::getEndPV() const {
 
-    return _tV[_c.getDim2()];;
+    return _tV[_s.getDim2()];;
   }
 
   template <typename T>
@@ -183,7 +183,7 @@
   int ERBSplineSurf<T>::getIndex(T t, bool u) const {
       int i = _d;
       if(u){
-          int n = _c.getDim1();
+          int n = _s.getDim1();
           for(;i<n;i++){
               if(_tU(i)<=t && t< _tU(i+1))
                   break;
@@ -192,7 +192,7 @@
               i = n-1;
       }
       else{
-          int n = _c.getDim2();
+          int n = _s.getDim2();
           for(;i<n;i++){
               if(_tV(i)<=t && t< _tV(i+1))
                   break;
@@ -232,10 +232,10 @@
       int i2 = getIndex(v,false);
 
 
-      C[0][0] =  _c(i1 -1)(i2-1)->evaluateParent(u,v,d1,d2);
-      C[0][1] =  _c(i1 -1)(i2)->evaluateParent(u,v,d1,d2);
-      C[1][0] =  _c(i1)(i2 -1)->evaluateParent(u,v,d1,d2);
-      C[1][1] =  _c(i1)(i2)->evaluateParent(u,v,d1,d2);
+      C[0][0] =  _s(i1 -1)(i2-1)->evaluateParent(u,v,d1,d2);
+      C[0][1] =  _s(i1 -1)(i2)->evaluateParent(u,v,d1,d2);
+      C[1][0] =  _s(i1)(i2 -1)->evaluateParent(u,v,d1,d2);
+      C[1][1] =  _s(i1)(i2)->evaluateParent(u,v,d1,d2);
 
       Bu[0][0] = T(1 - getB(getW(i1,1,u,true)));
       Bu[0][1] = T(getB(getW(i1,1,u,true)));
@@ -319,10 +319,10 @@
   inline
   void ERBSplineSurf<T>::localSimulate(double dt){
 
-//      for(int i=0;i<_c.getDim1();i++){
-//          for(int j=0;j<_c.getDim2();j++){
+//      for(int i=0;i<_s.getDim1();i++){
+//          for(int j=0;j<_s.getDim2();j++){
 
-//          _c[i][j]->rotate(dt,Vector<float,3>(0.0,0.0,1.0));
+//          _s[i][j]->rotate(dt,Vector<float,3>(0.0,0.0,1.0));
 //          }
 //      }
   }
